@@ -1,0 +1,95 @@
+/*
+ * Copyright (C) 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 34
+    
+    namespace "com.android.example.wear.ongoingactivity"
+
+    defaultConfig {
+        applicationId "com.android.example.wear.ongoingactivity"
+        minSdk 30
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17.majorVersion
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.compose.compiler.get()
+    }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+}
+
+dependencies {
+    implementation libs.androidx.activity.ktx
+
+    // Wear specific libraries
+    implementation libs.androidx.wear
+
+    // Compose
+    implementation libs.androidx.activity.compose
+    implementation libs.wear.compose.material
+    implementation libs.wear.compose.foundation
+    implementation(libs.androidx.compose.ui.tooling)
+    implementation libs.androidx.lifecycle.viewmodel.compose
+    implementation libs.androidx.lifecycle.runtime.compose
+
+    implementation libs.compose.ui.tooling
+    implementation libs.compose.ui.tooling.preview
+
+    // Permissions
+    implementation(libs.accompanist.permissions)
+
+    implementation libs.androidx.wear.ongoing
+    // Includes LocusIdCompat and new Notification categories for Ongoing Activity.
+    implementation libs.androidx.core.ktx
+
+    // DataStore used to save simple data.
+    implementation libs.androidx.datastore.preferences
+
+    // Lifecycle components
+    implementation libs.androidx.lifecycle.service
+
+    // Coroutines
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.core
+}
